@@ -622,8 +622,9 @@ func main() {
 		var clusters *ecs.ListClustersOutput
 
 		if *cluster != "" {
+			clusterList := strings.Split(*cluster, ",")
 			res, err := svc.DescribeClustersRequest(&ecs.DescribeClustersInput{
-				Clusters: []string{*cluster},
+				Clusters: clusterList,
 			}).Send()
 			if err != nil {
 				logError(err)
@@ -639,7 +640,7 @@ func main() {
 			}
 
 			clusters = &ecs.ListClustersOutput{
-				ClusterArns: []string{*cluster},
+				ClusterArns: clusterList,
 			}
 		} else {
 			c, err := GetClusters(svc)
